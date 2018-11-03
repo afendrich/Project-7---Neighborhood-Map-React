@@ -5,7 +5,8 @@ import axios from "axios";
 class App extends Component {
   //state for empty array of venues
   state = {
-    venues: []
+    venues: [],
+    markers: []
   };
 
   //after component mounts, calls getVenues
@@ -56,10 +57,20 @@ class App extends Component {
     //create an InfoWindow on the map
     var infowindow = new window.google.maps.InfoWindow();
 
+    //create an empty array for all the markers
+    var allMarkers = [];
+    this.setState({
+      map: map,
+      infowindow: infowindow
+    });
+
     //loop over state to place markers on map
     this.state.venues.map(myVenue => {
       //information to be used in the InfoWindow
-      var contentString = `${myVenue.venue.name}`;
+      var contentString = `<h1>${myVenue.venue.name}</h1>
+        ${myVenue.venue.location.address}, ${myVenue.venue.location.city} 
+      ${myVenue.venue.location.state}
+      <h5>Information provided by Foursquare.</h5>`;
 
       //create a marker
       var marker = new window.google.maps.Marker({
@@ -68,7 +79,8 @@ class App extends Component {
           lng: myVenue.venue.location.lng
         },
         map: map,
-        title: myVenue.venue.name
+        title: myVenue.venue.name,
+        animation: window.google.maps.Animation.DROP
       });
 
       //event listener to display the InfoWindow on the map
@@ -78,13 +90,65 @@ class App extends Component {
         //open the infowindow
         infowindow.open(map, marker);
       });
+      allMarkers.push(marker);
+    });
+    this.setState({
+      markers: allMarkers
+    });
+    this.setState({
+      filtermyVenue: this.state.venues
     });
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: ""
+    };
+  }
+
+  listItemClick = venues => {
+    let marker = this.markers.filter(m => m.id === venues.id)[0];
+    this.state.infowindow.setContent(marker.name);
+    this.state.map.setContent(marker.position);
+    this.state.infowindow.open(this.state.map, marker);
+  };
+
+  //filtering venues
+  filtermyVenue(query) {
+    let f = this.state.venues.filter(myvenue =>
+      myvenue.venue.name.toLowerCase().includes(query.toLowerCase())
+    );
+    console.log(this.state);
+    this.state.markers.forEach(marker => {
+      //console.log(marker);
+
+      marker.name.toLowerCase().includes(query.toLowerCase()) === true
+        ? marker.setVisible(true)
+        : marker.setVisible(false);
+    });
+    this.setState({ filtermyVenue: f, query });
+  }
 
   render() {
     return (
       <main>
         <div id="map" />
+        <div id="sidebar">
+          <input
+            placeholder="Filter by Name"
+            value={this.state.query}
+            onChange={e => {
+              this.filtermyVenue(e.target.value);
+            }}
+          />
+          <br />
+          {this.state.filtermyVenue &&
+            this.state.filtermyVenue.length > 0 &&
+            this.state.filtermyVenue.map((myVenue, index) => (
+              <div className="venue-item">{myVenue.venue.name}</div>
+            ))}
+        </div>
       </main>
     );
   }
