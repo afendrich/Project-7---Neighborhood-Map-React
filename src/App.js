@@ -91,14 +91,6 @@ class App extends Component {
         infowindow.open(map, marker);
       });
       allMarkers.push(marker);
-
-      //TEST TEST TEST
-      //ATTEMPT TO ADD EVENT LISTENER FOR MENU ITEM CLICK
-      var listItem = 
-
-
-
-
     });
     this.setState({
       markers: allMarkers
