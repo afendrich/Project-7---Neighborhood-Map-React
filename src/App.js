@@ -91,6 +91,14 @@ class App extends Component {
         infowindow.open(map, marker);
       });
       allMarkers.push(marker);
+
+      //TEST TEST TEST
+      //ATTEMPT TO ADD EVENT LISTENER FOR MENU ITEM CLICK
+      var listItem = 
+
+
+
+
     });
     this.setState({
       markers: allMarkers
@@ -114,8 +122,6 @@ class App extends Component {
     );
     console.log(this.state);
     this.state.markers.forEach(marker => {
-      //console.log(marker);
-
       marker.title.toLowerCase().includes(query.toLowerCase()) === true
         ? marker.setVisible(true)
         : marker.setVisible(false);
