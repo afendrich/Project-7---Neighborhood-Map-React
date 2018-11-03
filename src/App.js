@@ -107,13 +107,6 @@ class App extends Component {
     };
   }
 
-  listItemClick = venues => {
-    let marker = this.markers.filter(m => m.id === venues.id)[0];
-    this.state.infowindow.setContent(marker.name);
-    this.state.map.setContent(marker.position);
-    this.state.infowindow.open(this.state.map, marker);
-  };
-
   //filtering venues
   filtermyVenue(query) {
     let f = this.state.venues.filter(myvenue =>
@@ -123,7 +116,7 @@ class App extends Component {
     this.state.markers.forEach(marker => {
       //console.log(marker);
 
-      marker.name.toLowerCase().includes(query.toLowerCase()) === true
+      marker.title.toLowerCase().includes(query.toLowerCase()) === true
         ? marker.setVisible(true)
         : marker.setVisible(false);
     });
