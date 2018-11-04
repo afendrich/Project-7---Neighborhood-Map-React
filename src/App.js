@@ -112,7 +112,7 @@ class App extends Component {
     let f = this.state.venues.filter(myvenue =>
       myvenue.venue.name.toLowerCase().includes(query.toLowerCase())
     );
-    console.log(this.state);
+
     this.state.markers.forEach(marker => {
       marker.title.toLowerCase().includes(query.toLowerCase()) === true
         ? marker.setVisible(true)
@@ -137,7 +137,16 @@ class App extends Component {
           {this.state.filtermyVenue &&
             this.state.filtermyVenue.length > 0 &&
             this.state.filtermyVenue.map((myVenue, index) => (
-              <div className="venue-item">{myVenue.venue.name}</div>
+              //<div className="venue-item">{myVenue.venue.name}</div>
+              <div key={index} className="venue-item">
+                <button
+                  onClick={() => {
+                    this.listItemClick(myVenue.venue);
+                  }}
+                >
+                  {myVenue.venue.name}
+                </button>
+              </div>
             ))}
         </div>
       </main>
