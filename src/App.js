@@ -141,7 +141,7 @@ class App extends Component {
               <div key={index} className="venue-item">
                 <button
                   onClick={() => {
-                    this.listItemClick(myVenue.venue);
+                    //need to figure this out
                   }}
                 >
                   {myVenue.venue.name}
