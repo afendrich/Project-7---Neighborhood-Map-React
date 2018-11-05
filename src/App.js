@@ -1,13 +1,19 @@
-import React, { Component } from "react";
+//import React, { Component } from "react";
+import React from "react";
+import ReactDOM from "react-dom";
 import "./App.css";
 import axios from "axios";
 
-class App extends Component {
+class App extends React.Component {
   //state for empty array of venues
-  state = {
-    venues: [],
-    markers: []
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      venues: [],
+      markers: []
+      //query: ''
+    };
+  }
 
   //after component mounts, calls getVenues
   componentDidMount() {
@@ -100,13 +106,6 @@ class App extends Component {
     });
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: ""
-    };
-  }
-
   //filtering venues
   filtermyVenue(query) {
     let f = this.state.venues.filter(myvenue =>
@@ -137,7 +136,11 @@ class App extends Component {
           {this.state.filtermyVenue &&
             this.state.filtermyVenue.length > 0 &&
             this.state.filtermyVenue.map((myVenue, index) => (
-              //<div className="venue-item">{myVenue.venue.name}</div>
+              <div key={index} className="venue-item">
+                {myVenue.venue.name}
+              </div>
+
+              /*
               <div key={index} className="venue-item">
                 <button
                   onClick={() => {
@@ -146,7 +149,9 @@ class App extends Component {
                 >
                   {myVenue.venue.name}
                 </button>
+                
               </div>
+              */
             ))}
         </div>
       </main>
