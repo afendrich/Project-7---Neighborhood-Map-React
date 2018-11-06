@@ -136,22 +136,15 @@ class App extends React.Component {
           {this.state.filtermyVenue &&
             this.state.filtermyVenue.length > 0 &&
             this.state.filtermyVenue.map((myVenue, index) => (
-              <div key={index} className="venue-item">
+              <div
+                onClick={() => {
+                  console.log(this + " was clicked");
+                }}
+                key={index}
+                className="venue-item"
+              >
                 {myVenue.venue.name}
               </div>
-
-              /*
-              <div key={index} className="venue-item">
-                <button
-                  onClick={() => {
-                    //need to figure this out
-                  }}
-                >
-                  {myVenue.venue.name}
-                </button>
-                
-              </div>
-              */
             ))}
         </div>
       </main>
